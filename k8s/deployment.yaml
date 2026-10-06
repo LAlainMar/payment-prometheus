@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-processor
+  namespace: monitoring # Lo desplegamos en el mismo namespace para facilitar el scraping de Prometheus
+  labels:
+    app: payment-processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-processor
+  template:
+    metadata:
+      labels:
+        app: payment-processor
+        # Esta etiqueta le dice al operador de Prometheus que busque métricas aquí
+        release: monitoring 
+    spec:
+      containers:
+        - name: payment-api
+          # 🚨 REEMPLAZA con el URI real de tu repositorio de Amazon ECR que subiste previamente
+          image: ://amazonaws.com
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /var/log
+      volumes:
+        - name: shared-logs
+          emptyDir: {} # Volumen compartido temporal dentro del Pod

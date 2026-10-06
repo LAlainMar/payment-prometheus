@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     # 🚨 REEMPLAZA con la URL de tu repositorio de Git público o privado
-    repoURL: 'https://github.com'
+    repoURL: 'https://github.com/LAlainMar/payment-prometheus.git'
     targetRevision: HEAD
     path: k8s # La carpeta dentro del repositorio donde están los archivos yaml
   destination:

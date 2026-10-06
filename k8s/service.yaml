@@ -20,7 +20,7 @@ metadata:
   namespace: monitoring
   labels:
     # Esta etiqueta DEBE coincidir con el selector del operador de Prometheus de tu Helm chart
-    release: monitoring 
+    release: monitoring
 spec:
   selector:
     matchLabels:

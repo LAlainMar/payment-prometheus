@@ -13,7 +13,7 @@ spec:
   selector:
     app: payment-processor
 ---
-apiVersion: ://coreos.com
+apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: payment-processor-monitor

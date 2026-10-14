@@ -15,12 +15,12 @@ spec:
       labels:
         app: payment-processor
         # Esta etiqueta le dice al operador de Prometheus que busque métricas aquí
-        release: monitoring 
+        release: monitoring
     spec:
       containers:
         - name: payment-api
           # 🚨 REEMPLAZA con el URI real de tu repositorio de Amazon ECR que subiste previamente
-          image: ://amazonaws.com
+          image: 442090679586.dkr.ecr.us-east-1.amazonaws.com/my-app:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

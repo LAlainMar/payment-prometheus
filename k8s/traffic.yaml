@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traffic-injector
+  namespace: monitoring
+  labels:
+    app: traffic-injector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traffic-injector
+  template:
+    metadata:
+      labels:
+        app: traffic-injector
+    spec:
+      containers:
+        - name: injector
+          image: python:3.11-slim
+          # Usamos un script inline en Bash/Python para no tener que subir otra imagen a ECR
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              pip install requests;
+              cat << 'EOF' > inject.py
+              import time
+              import requests
+              import random
+
+              # Apunta al nombre del servicio interno de Kubernetes que creamos en el paso anterior
+              URL = "http://payment-processor-service:8000/checkout"
+
+              print("🚀 Inyector de tráfico interno de EKS iniciado...")
+              while True:
+                  try:
+                      # Simula transacciones continuas
+                      response = requests.post(URL, json={"user_id": "eks_user"}, timeout=2)
+                      print(f"Estado recibido del procesador: {response.status_code}")
+                  except Exception as e:
+                      print(f"Fallo de conexión interna: {e}")
+                  
+                  # Pausa aleatoria para simular concurrencia real
+                  time.sleep(random.uniform(0.02, 0.1))
+              EOF
+              python inject.py

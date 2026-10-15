@@ -37,4 +37,6 @@ spec:
               mountPath: /var/log
       volumes:
         - name: shared-logs
-          emptyDir: {} # Volumen compartido temporal dentro del Pod
+          hostPath:
+            path: /var/log/payment-processor
+            type: DirectoryOrCreate

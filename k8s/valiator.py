@@ -11,7 +11,7 @@ spec:
       containers:
         - name: validator
           # 🚨 REEMPLAZA con tu imagen real de ECR/DockerHub
-          image: ://amazonaws.com
+          image: 267259336308.dkr.ecr.us-east-1.amazonaws.com/validator:latest
           imagePullPolicy: Always
           volumeMounts:
             - name: app-logs

@@ -8,6 +8,16 @@ spec:
     metadata:
       name: telemetry-validation-job
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - payment-processor
+              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: validator
           # 🚨 REEMPLAZA con tu imagen real de ECR/DockerHub
